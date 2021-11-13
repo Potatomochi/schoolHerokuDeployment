@@ -1,4 +1,4 @@
-# frontend
+# wadapp
 
 ## Project setup
 ```
