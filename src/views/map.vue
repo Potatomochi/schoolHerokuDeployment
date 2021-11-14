@@ -297,6 +297,7 @@ import axios from 'axios'
 import FavouriteButton from '@/components/favourite.vue'
 import DeleteButton from '@/components/delete.vue'
 import firebase from '../helpers/firebaseconfig'
+// import showSearch from '../helpers/showSearches'
 // import SavedSearches from '../helpers/savedSearches';
 
 export default {
@@ -338,6 +339,13 @@ export default {
       this.searches = [];
       this.showSearch();
     }, 
+  computed: {
+    // show: function() {
+    //     // var location = this.getLocationInput.toLowerCase();
+    //     return showSearch(this.searches);
+    // }
+
+  },
   methods: {
     async ratingGetter(id) {
       const test = await getInfo(id)
@@ -366,7 +374,7 @@ export default {
       }
 
       // your url to get , this url needs a latitude and longitude from a location, so we need to use Google to get this for us
-      const BASE_URL_1 = 'https://api.foursquare.com/v2/venues/explore?client_id=CYYH5UN4KPR4E2B4CZRL4WXF3TODYG4OBWRN45EYWYLBSXYK&client_secret=2VJF5EMBFIIK1BKHP3D5NWE3L3J4ZWAO2D0ENJ0OU2O5HKB4&v=20211021&ll=';
+      const BASE_URL_1 = 'https://api.foursquare.com/v2/venues/explore?client_id=TCHMAKI4LEAZFSOGLZAVCX4RAV4MLTNT1ORPD41GPLADHFA4&client_secret=5SPMO4QOK5RUYK10LTFZJEA0ZZDC5MCMHJ02J5E513TAAGZW&v=20211021&ll=';
       const BASE_URL_2 = "&section="
       try {
         // calls getLL which is another axios call to get the lat and long coordinates from google API
@@ -530,21 +538,7 @@ export default {
     //   getLocation()
       
     // },
-    saveSearch() {
-      const user = JSON.parse(localStorage.getItem('authUser'));
-      const userEmail = user.email;
-      const uid = userEmail.replace(/\W/g, '');
-      const db = firebase.database().ref("/userPrefs/"+ uid + "/savedSearches");
-      var location = this.getLocationInput.toLowerCase();
-      db.update({[location]: true})
-        .then(() => {
-          alert("You have saved the location! Refresh the page to see it in the dropdown");
-        })
-        .catch(e => {
-          alert(e);
-        });
-      
-    },
+    
     async getAll() {
         const user = JSON.parse(localStorage.getItem('authUser'))
         const userEmail = user.email
@@ -568,6 +562,7 @@ export default {
         this.searches = [];
         this.searches = await this.getAll()
         this.searches = JSON.parse(JSON.stringify(this.searches))
+
         // for (var loc of this.searches) {
         //   document.getElementById("dropdownlist").innerHTML += `<option value="`+loc+`"
         //   > ${loc}
@@ -594,9 +589,33 @@ export default {
     .catch(e => {
           alert(e);
         });
-    }
-
+    this.showSearch();
+    },
     
+    saveSearch() {
+  // try {
+  const user = JSON.parse(localStorage.getItem('authUser'));
+  const userEmail = user.email;
+  const uid = userEmail.replace(/\W/g, '');  
+  const db = firebase.database().ref("/userPrefs/"+ uid + "/savedSearches");
+  var location = this.getLocationInput.toLowerCase();
+  // this.searches.push(location);
+  db.update({[location]: true})
+    .then(() => {
+      alert("You have saved the location!");
+    })
+    .catch(e => {
+      alert(e);
+    });
+  this.showSearch();
+  
+  // }
+  // catch (e) {
+  //     console.log(e);
+  // }
+  // return this.searches;
+   
+}
     
   },
     
