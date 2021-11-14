@@ -4,6 +4,7 @@ import 'firebase/compat/firestore';
 import "firebase/compat/database";
 
 
+
 const firebaseConfig = {
     apiKey: process.env.VUE_APP_FIREBASE_API,
     authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,

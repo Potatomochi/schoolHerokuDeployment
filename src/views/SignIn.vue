@@ -123,7 +123,7 @@ export default {
     //this checks if the form input elements are valid
     var emailAddress = this.emailAddress;
     var password = this.password;
-
+    
     firebase.auth().signInWithEmailAndPassword(emailAddress,password).then((result)=> {
       const user = result.user;
       console.log("this is user",user);
@@ -141,6 +141,7 @@ export default {
     this.preLoaded = false
     const auth = getAuth()
     const provider = new GoogleAuthProvider()
+    
     signInWithPopup(auth, provider)
     .then((result) => {
       // This gives you a Google Access Token. You can use it to access the Google API.
@@ -149,7 +150,7 @@ export default {
       // The signed-in user info.
       const user = result.user;
       // ...
-      console.log("this is user",user);
+
       localStorage.setItem('authUser', JSON.stringify(user));
       if(user){
         this.isLoaded = true
